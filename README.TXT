@@ -1,4 +1,3 @@
-#node-watchable
 
 ##exports
 * Watchable(onGet,onSet,onForeach)
