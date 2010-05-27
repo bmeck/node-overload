@@ -28,7 +28,7 @@ Code
 Output
 
 	hello
-	world!
+	 world!
 
 ##uses
 1. Debugging - Show what is being accessed / set

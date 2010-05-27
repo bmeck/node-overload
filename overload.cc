@@ -52,7 +52,9 @@ Handle<Value> WatchableNamedPropertySetter(
 	) {
 	HandleScope scope;
 	//Grab the value of the property
-	Handle<Object> holder=info.Holder();
+	Handle<Object> holder = Handle<Object>::Cast(
+		holder->GetInternalField(0)
+	);
 	Handle<Value> old_value;
 	Handle<Value> had_value;
 
@@ -71,7 +73,34 @@ Handle<Value> WatchableNamedPropertySetter(
 	//Grab function and call (property,value)
 	Handle<Value> data = holder->GetInternalField(2);
 	Handle<Function> callback = Handle<Function>::Cast(data);
-	Handle<Value> new_value = callback->Call(info.Holder(),4,values);
+	Handle<Value> new_value = callback->Call(Holder,4,values);
+
+	holder->ForceSet(property,new_value);
+
+	//Return value is the return of the function call
+	return scope.Close(new_value);
+}
+
+Handle<Array> WatchableNamedPropertyEnumerator(
+	const AccessorInfo& info
+	) {
+	HandleScope scope;
+	//Grab the value of the property
+	Handle<Object> holder = Handle<Object>::Cast(
+		holder->GetInternalField(0)
+	);
+	Handle<Value> old_value;
+	Handle<Value> had_value;
+
+	Handle<Array> names = holder->GetPropertyNames();
+
+	//Set up arguments
+	Handle<Value> values[4] = {property,old_value,value,had_value};
+
+	//Grab function and call (property,value)
+	Handle<Value> data = holder->GetInternalField(2);
+	Handle<Function> callback = Handle<Function>::Cast(data);
+	Handle<Value> new_value = callback->Call(holder,4,values);
 
 	holder->ForceSet(property,new_value);
 
@@ -86,14 +115,15 @@ Handle<Value> WatchableIndexedPropertyGetter(
 	HandleScope scope;
 
 	//Grab the value
-	Handle<Object> holder=info.Holder();
+	Handle<Object> holder = Handle<Object>::Cast(
+		holder->GetInternalField(0)
+	);
 	Handle<Number> property = Number::New(index);
 	Handle<Value> value;
 	Handle<Value> had_value;
 
-	Handle<Object> indices = Handle<Object>::Cast(holder->GetInternalField(0));
-	if( indices->Has(index) )  {
-		value =indices->Get(index);
+	if( holder->Has(index) )  {
+		value = holder->Get(index);
 		had_value = True();
 	}
 	else {
@@ -106,7 +136,7 @@ Handle<Value> WatchableIndexedPropertyGetter(
 	//Grab function and call (property,value)
 	Handle<Value> data = holder->GetInternalField(1);
 	Handle<Function> callback = Handle<Function>::Cast(data);
-	Handle<Value> new_value = callback->Call(info.Holder(),3,values);
+	Handle<Value> new_value = callback->Call(holder,3,values);
 
 	//Return value is the return of the function call
 	return scope.Close(new_value);
@@ -120,14 +150,15 @@ Handle<Value> WatchableIndexedPropertySetter(
 	HandleScope scope;
 
 	//Grab the value
-	Handle<Object> holder=info.Holder();
+	Handle<Object> holder = Handle<Object>::Cast(
+		holder->GetInternalField(0)
+	);
 	Handle<Number> property = Number::New(index);
 	Handle<Value> had_value;
 
-	Handle<Object> indices = Handle<Object>::Cast(holder->GetInternalField(0));
 	Handle<Value> old_value;
-	if( indices->Has(index) )  {
-		old_value = indices->Get(index);
+	if( holder->Has(index) )  {
+		old_value = holder->Get(index);
 		had_value = True();
 	}
 	else {
@@ -141,15 +172,15 @@ Handle<Value> WatchableIndexedPropertySetter(
 	//Grab function and call (property,value)
 	Handle<Value> data = holder->GetInternalField(2);
 	Handle<Function> callback = Handle<Function>::Cast(data);
-	Handle<Value> new_value = callback->Call(info.Holder(),4,values);
+	Handle<Value> new_value = callback->Call(holder,4,values);
 
-	indices->Set(index,new_value);
+	holder->Set(index,new_value);
 
 	//Return value is the return of the function call
 	return scope.Close(new_value);
 }
 
-
+Local<ObjectTemplate> object_template = ObjectTemplate::New();
 Handle<Value> Watchable(const Arguments& args) {
 	HandleScope scope;
 	Handle<Value> getter = args[0];
@@ -163,9 +194,18 @@ Handle<Value> Watchable(const Arguments& args) {
 	else {
 		return ThrowException(String::New("Getter callback must be a function"));
 	}
+	Handle<Object> watchable = object_template->NewInstance();
+	watchable->SetInternalField(0,Object::New());
+	watchable->SetInternalField(1,getter);
+	watchable->SetInternalField(2,setter);
+	return scope.Close(watchable);
+}
+
+extern "C" void init (Handle<Object> target)
+{
+	HandleScope scope;
 	//Every one with a different callback needs a different template
-	Local<ObjectTemplate> object_template = ObjectTemplate::New();
-	//0 - Indices object
+	//0 - Holder object - aka the real one
 	//1 - Getter
 	//2 - Setter
 	//3 - Query
@@ -177,23 +217,13 @@ Handle<Value> Watchable(const Arguments& args) {
 		,WatchableNamedPropertySetter
 //		,WatchableNamedPropertyQuery
 //		,WatchableNamedPropertyDeleter
-//		,WatchableNamedPropertyEnumerator
+		,WatchableNamedPropertyEnumerator
 	);
 	object_template->SetIndexedPropertyHandler(
 		WatchableIndexedPropertyGetter
 		,WatchableIndexedPropertySetter
 		,0,0,0
 	);
-	Handle<Object> watchable = object_template->NewInstance();
-	watchable->SetInternalField(0,Object::New());
-	watchable->SetInternalField(1,getter);
-	watchable->SetInternalField(2,setter);
-	return scope.Close(watchable);
-}
-
-extern "C" void init (Handle<Object> target)
-{
-	HandleScope scope;
 	Local<FunctionTemplate> watchable_template = FunctionTemplate::New(Watchable);
 	Local<Function> watchable = watchable_template->GetFunction();
 	//Export
