@@ -1,11 +1,14 @@
 #node-watchable
+
 ##exports
 * Watchable(onGet,onSet)
-	Supplies getter and setter callbacks across all the properties
-	Currently both callbacks are required
+
+		Supplies getter and setter callbacks across all the properties
+		Currently both callbacks are required
 
 ##example
 Code
+
 	//print out any property gets that use the . operator
 	var debug = Watchable(
 		function(propertyName,value,hadAlready){
@@ -23,6 +26,7 @@ Code
 	debug.hello
 	debug[" world!"]
 Output
+
 	hello
 	world!
 
