@@ -1,22 +1,21 @@
-
 #Node-Overload
 
 ##exports
 
 * Watchable(onGet,onSet,onForeach)
 
-		Supplies getter and setter callbacks across all the properties along with a for(x in y) callback that returns the list
-		Callback's can use the _this_ object in order to act normally without reinvoking themselves.
+	Supplies getter and setter callbacks across all the properties along with a for(x in y) callback that returns the list
+	Callback's can use the __this__ object in order to act normally without reinvoking themselves.
 
-**	Value onGet(String propertyName, Value value, hadAlready)
+*	Value onGet(String propertyName, Value value, hadAlready)
 
-		Returns the value at a specific index
-**	Value onSet(String propertyName, Value oldValue, Value value, hadAlready)
+	Returns the value at a specific index
+*	Value onSet(String propertyName, Value oldValue, Value value, hadAlready)
 
-		Returns the value to save at a specific index
-**	Array onForeach()
+	Returns the value to save at a specific index
+*	Array onForeach()
 
-		Returns an array containing all the index keys for this object
+	Returns an array containing all the index keys for this object
 
 
 
