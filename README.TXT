@@ -1,5 +1,8 @@
-#Node
+
+#Node-Overload
+
 ##exports
+
 * Watchable(onGet,onSet,onForeach)
 
 		Supplies getter and setter callbacks across all the properties along with a for(x in y) callback that returns the list
@@ -18,7 +21,8 @@
 
 
 ##example
-Code
+
+####Code
 
 	//print out any property gets that use the . operator
 	var debug = Watchable(
@@ -36,12 +40,14 @@ Code
 	)
 	debug.hello
 	debug[" world!"]
-Output
+
+####Output
 
 	hello
 	 world!
 
 ##uses
+
 1. Debugging - Show what is being accessed / set
 2. False natives - refuse to allow properties to be set / got beyond a specified few
 3. Dynamic programming - Fib[3] could compute Fib[1] and Fib[2]
