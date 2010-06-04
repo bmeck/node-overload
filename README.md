@@ -2,9 +2,8 @@
 
 ##exports
 
-* Watchable(onGet,onSet,onForeach)
+* Watchable(onGet,onSet,onForeach,onQuery,onDelete)
 
-	Supplies getter and setter callbacks across all the properties along with a for(x in y) callback that returns the list
 	Callback's can use the __this__ object in order to act normally without reinvoking themselves.
 
 *	Value onGet(String propertyName, Value value, hadAlready)
@@ -16,7 +15,12 @@
 *	Array onForeach()
 
 	Returns an array containing all the index keys for this object
+*	Boolean onQuery(String propertyName, Value value, hadAlready)
 
+	Returns whether the object has a specific index
+*	Boolean onDelete(String propertyName, Value value, hadAlready)
+
+	Returns whether the object was successful in deleting a specific index
 
 
 ##example
