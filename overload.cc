@@ -430,12 +430,24 @@ Handle<Value> RePrototype(const Arguments& args) {
 	HandleScope scope;
 	if(args[0]->IsObject()&&args[1]->IsObject()) {
 		Handle<Object> obj=Handle<Object>::Cast(args[0]);
-		scope.Close(Boolean::New(obj->SetPrototype(args[1])));
+		return scope.Close(Boolean::New(obj->SetPrototype(args[1])));
 	}
 	else {
-		scope.Close(ThrowException(Exception::Error(String::New("Both arguments must be Objects"))));
+		return scope.Close(ThrowException(Exception::Error(String::New("Both arguments must be Objects"))));
 	}
 }
+
+//Handle<Function> Context(const Arguments& args) {
+//	HandleScope scope;
+//	if(args[0]->IsFunction()) {
+//		Handle<Context> restricted = Conetext::New();
+//		Handle<Object> obj=Handle<Object>::Cast(args[0]);
+//		return scope.Close(args[0]);
+//	}
+//	else {
+//		return scope.Close(ThrowException(Exception::Error(String::New("Argument must be a function"))));
+//	}
+//}
 
 extern "C" void init (Handle<Object> target)
 {
