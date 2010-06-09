@@ -1,0 +1,9 @@
+{ "name" : "overload"
+, "directories" : { "lib" : "./lib" }
+, "version" : "1.0.1"
+, "author": "bradleymeck"
+, "main": "lib/overload.node"
+, "scripts": {
+  "install" : "make"
+  }
+}
