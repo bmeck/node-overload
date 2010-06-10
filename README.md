@@ -2,42 +2,41 @@
 
 ##install
 
-####If you have npm
-1. npm install overload
+####If you have [npm](http://github.com/isaacs/npm)
+> npm install overload
 
 ####Raw
-1. run __make__
-2. files are in lib directory
+>  make
+
+Files are in __lib__ directory
 
 ##exports
 
 ####overload.node
 
-* Watchable(onGet,onSet,onForeach,onQuery,onDelete)
+> ##Watchable(onGet,onSet,onForeach,onQuery,onDelete)
+> Callback's can use the __this__ object in order to act normally without reinvoking themselves.
+>
+> * Value onGet(ArgInfo) - property
 
-	Callback's can use the __this__ object in order to act normally without reinvoking themselves.
+>	Returns the value at a specific index
+> * Value onSet(ArgInfo) - property, value
 
-* * Value onGet(ArgInfo) - property
+>	Returns the value to save at a specific index
+> * Array onForeach(ArgInfo)
 
-	Returns the value at a specific index
-* * Value onSet(ArgInfo) - property, value
+>	Returns an array containing all the index keys for this object
+> * Boolean onQuery(ArgInfo) - property
 
-	Returns the value to save at a specific index
-* * Array onForeach(ArgInfo)
+>	Returns whether the object has a specific index
+> * Boolean onDelete(ArgInfo) - property
 
-	Returns an array containing all the index keys for this object
-* * Boolean onQuery(ArgInfo) - property
-
-	Returns whether the object has a specific index
-* * Boolean onDelete(ArgInfo) - property
-
-	Returns whether the object was successful in deleting a specific index
-
-* * ArgInfo Values - holder thisObject property? value?
-
-* RePrototype(obj,proto)
-
-	Set obj's prototype to proto
+>	Returns whether the object was successful in deleting a specific index
+> * ArgInfo Values - holder thisObject property? value?
+>
+> ## RePrototype(obj,proto)
+>
+>	Set obj's prototype to proto
 
 ####proxy.js
 
@@ -45,15 +44,13 @@ Partial implementation of ES Harmony Proxy API.
 
 ####utils.js
 
-* ReadOnly(obj,mask)
-
-	Prevent an object from being modified w/ a setter. Methods on this object may still modify the object.
-
-* * mask - list of properties to intercept properties (useful to replace methods you dont want to modify the object)
-
-* * ReadOnly.ArrayMask
-
-* * ReadOnly.DateMask
+> ##ReadOnly(obj,mask)
+>
+>	Prevent an object from being modified w/ a setter. Methods on this object may still modify the object.
+>
+> * mask - list of properties to intercept properties (useful to replace methods you dont want to modify the object)
+> * ReadOnly.ArrayMask - prevents Array Object from being modified by methods
+> * ReadOnly.DateMask - prevent Date Object from being modified by methods
 
 ##example
 
@@ -90,15 +87,15 @@ Partial implementation of ES Harmony Proxy API.
 
 ##uses
 
-* Watchable
-1. Debugging - Show what is being accessed / set
-2. False natives - refuse to allow properties to be set / got beyond a specified few
-3. Dynamic programming - Fib[3] could compute Fib[1] and Fib[2]
-4. Index based getters / setters - Fib[0] cannot have a getter set normally because it is a number not string based index (all non-number non-undefined values become string based).
+#### Watchable
+> 1. Debugging - Show what is being accessed / set
+> 2. False natives - refuse to allow properties to be set / got beyond a specified few
+> 3. Dynamic programming - Fib[3] could compute Fib[1] and Fib[2]
+> 4. Index based getters / setters - Fib[0] cannot have a getter set normally because it is a number not string based index (all non-number non-undefined values become string based).
 
-* RePrototype
-1. Making Watchables follow the instanceof operator
-2. Making extensions of Objects follow the instanceof operator
+#### RePrototype
+> 1. Making Watchables follow the instanceof operator
+> 2. Making extensions of Objects follow the instanceof operator
 
-* ReadOnly
-1. Making arrays that cant be messed with
+#### ReadOnly
+> 1. Making arrays that cant be messed with
