@@ -38,6 +38,19 @@ Files are in __lib__ directory
 >
 >	Set obj's prototype to proto
 
+> ##OnCollect(Object,collector)
+> Calls the collector when the Object is about to be Garbage Collected
+
+> * undefined collector(theObject)
+
+> ##new EphemeronTable()
+> Creates an ephemeron table that only keeps its keys until that key is garbage collected
+
+> * Value get(Object)
+> * Value set(Object,Value)
+> * Boolean has(Object)
+> * Object[] keys()
+
 ####proxy.js
 
 Partial implementation of ES Harmony Proxy API.
@@ -99,3 +112,7 @@ Partial implementation of ES Harmony Proxy API.
 
 #### ReadOnly
 > 1. Making arrays that cant be messed with
+
+#### TODO
+
+> 1. EphemeronTable is too generous in allocating memory for it's hash table.
