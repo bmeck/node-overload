@@ -64,3 +64,7 @@ var me = new myself
 me.fly()
 me.run()
 me.id()
+mySuper.prototype.run = function() {
+	console.log("Acting mild mannered I walk")
+}
+me.run()
