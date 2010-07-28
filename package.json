@@ -1,6 +1,6 @@
 { "name" : "overload"
 , "directories" : { "lib" : "./lib" }
-, "version" : "1.2.3"
+, "version" : "1.2.4"
 , "author": "bradleymeck"
 , "main": "lib/overload.node"
 , "scripts":
