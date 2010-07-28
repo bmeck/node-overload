@@ -37,7 +37,7 @@ var PrototypeChain = function(prototypes) {
   	}
   	, "delete": function(ArgInfo) {
   	}
-  } )
+  }, prototypes[prototypes.length-1] )
 }
 function mySuper() {}
 mySuper.prototype.fly = function() {
@@ -61,9 +61,15 @@ function myself(){}
 myself.prototype = proto
 
 var me = new myself
-me.fly()
-me.run()
-me.id()
+me.fly()//from superduper
+me.run()//from super
+me.id()//from identity
+
+console.log("Am I an Identity? "+(me instanceof myIdentity))
+//only one chain can be used for instanceof T_T
+console.log("Am I an Super? "+(me instanceof mySuperduper))
+
+//prototype chain changes are preserved!
 mySuper.prototype.run = function() {
 	console.log("Acting mild mannered I walk")
 }
