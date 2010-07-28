@@ -9,4 +9,5 @@ setTimeout(
 	,5000
 )
 
+//get the value of the first callback from the table
 console.log(callbacks.get(callbacks.keys()[0]))
