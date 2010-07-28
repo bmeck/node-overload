@@ -68,22 +68,26 @@ Partial implementation of ES Harmony Proxy API.
 ##example
 
 ####Code
-	var proxied={hello:""}
-	var debug = Watchable(
-		//GETTER
-		function(ArgInfo){
+	var Watchable = require( "../lib/overload" ).Watchable
+	  , proxied={ hello : "" }
+	  , debug = Watchable(
+		function getter( ArgInfo ){
 			//check the type of the object contained by value
 			//undefined if no value, or number if using []'s with a number
-			var property=ArgInfo.property
-			sys.puts("GET:"+JSON.stringify(property),"VALUE:"+String(proxied[property]));
-			return proxied[property];
+			var property = ArgInfo.property
+			assert.equal( property, "hello", "GETTER PROPERTY NAME" )
+			console.log( "GET:" + JSON.stringify( property ) )
+			console.log( "VALUE:" + String(proxied[ property ] ) )
+			return proxied[ property ];
 		}
-		//SETTER
-		, function(ArgInfo) {
-			var property=ArgInfo.property
-			var value=ArgInfo.value
-			sys.puts("GET:"+JSON.stringify(property),"VALUE:"+String(proxied[property]),"NEW VALUE:"+String());
-			pro
+		, function setter( ArgInfo ) {
+			var property = ArgInfo.property
+			assert.equal( property, " world!", "SETTER PROPERTY NAME" )
+			var value = ArgInfo.value
+			assert.equal( value, true, "SETTER PROPERTY VALUE" )
+			console.log( "GET:"+JSON.stringify( property ) )
+			console.log( "VALUE:"+String( proxied[ property ] ) )
+			console.log( "NEW VALUE:" + String( value ) )
 			return ArgInfo.value;
 		}
 	)
@@ -96,7 +100,7 @@ Partial implementation of ES Harmony Proxy API.
 	VALUE:
 	SET:" world!"
 	VALUE:undefined
-	VALUE:true
+	NEW VALUE:true
 
 ##uses
 
