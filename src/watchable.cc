@@ -8,8 +8,6 @@
 //		var debug = Watchable(function(p,v){if(typeof v == "number") return v; sys.puts(p);return v;})
 
 #include <v8.h>
-#include <map>
-#include <iostream>
 
 using namespace std;
 using namespace v8;
@@ -93,15 +91,10 @@ Handle<Array> WatchableNamedPropertyEnumerator(
 	Handle<Function> callback = Handle<Function>::Cast(data);
 	Handle<Value> new_value = callback->Call(info.This(),1,values);
 	//Return value is the return of the function call
-	printf("test\n");
-
 	if(new_value->IsArray()) {
-		printf("ok?\n");
 		return scope.Close(Handle<Array>::Cast(new_value));
 	}
 	else {
-		printf("wtf\n");
-		ThrowException(Exception::Error(String::New("Callback must return an Array.")));
 		return scope.Close(Array::New());
 	}
 }
@@ -197,7 +190,6 @@ Handle<Value> WatchableIndexedPropertySetter(
 	//Default
 	Handle<Value> data = callbacks->GetInternalField(1);
 	if(data->IsNull()) {
-		printf("defaulted setter");
 		return scope.Close(Undefined());
 	}
 	//Set up arguments
@@ -236,7 +228,6 @@ Handle<Array> WatchableIndexedPropertyEnumerator(
 		return scope.Close(Handle<Array>::Cast(new_value));
 	}
 	else {
-		ThrowException(String::New("Callback must return an Array."));
 		return scope.Close(Array::New());
 	}
 }

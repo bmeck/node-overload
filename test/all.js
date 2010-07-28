@@ -1,0 +1,6 @@
+require("./oncollect")
+require("./watchable")
+require("./proxy")
+require("./readonly")
+console.log("ALL PASSED")
+process.exit(0)

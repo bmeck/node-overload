@@ -3,7 +3,8 @@
 , "version" : "1.2.3"
 , "author": "bradleymeck"
 , "main": "lib/overload.node"
-, "scripts": {
-  "install" : "make"
+, "scripts":
+  {  "install" : "make"
+  ,  "test" : "test/all.js"
   }
 }
