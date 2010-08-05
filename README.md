@@ -55,6 +55,14 @@ Files are in __lib__ directory
 
 Partial implementation of ES Harmony Proxy API.
 
+####weakmap.js
+
+Implementation of ES Harmony WeakMap API.
+
+####weakpointer.js
+
+Implementation of ES Harmony WeakPointer API.
+
 ####utils.js
 
 > ##ReadOnly(obj,mask)
