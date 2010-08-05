@@ -53,15 +53,15 @@ Files are in __lib__ directory
 
 ####proxy.js
 
-Partial implementation of ES Harmony Proxy API.
+Partial implementation of [ES Harmony Proxy API](http://wiki.ecmascript.org/doku.php?id=harmony:proxies&s=proxy).
 
 ####weakmap.js
 
-Implementation of ES Harmony WeakMap API.
+Implementation of ES [Harmony WeakMap API](http://wiki.ecmascript.org/doku.php?id=harmony:weak_maps).
 
 ####weakpointer.js
 
-Implementation of ES Harmony WeakPointer API.
+Implementation of [ES Harmony WeakPointer API](http://wiki.ecmascript.org/doku.php?id=strawman:weak_references).
 
 ####utils.js
 
