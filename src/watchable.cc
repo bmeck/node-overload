@@ -231,7 +231,7 @@ Handle<Array> WatchableIndexedPropertyEnumerator(
 		return scope.Close(Array::New());
 	}
 }
-Handle<Boolean> WatchableIndexedPropertyQuery(
+Handle<Integer> WatchableIndexedPropertyQuery(
 	uint32_t index
 	, const AccessorInfo& info
 	) {
@@ -242,7 +242,7 @@ Handle<Boolean> WatchableIndexedPropertyQuery(
 	//Default
 	Handle<Value> data = callbacks->GetInternalField(2);
 	if(data->IsNull()) {
-		return scope.Close(False());
+		return scope.Close(Handle<Integer>());
 	}
 	//Set up arguments
 	Handle<Object> args=WatchableArgs(info.Holder(),info.This());
@@ -253,7 +253,7 @@ Handle<Boolean> WatchableIndexedPropertyQuery(
 	Handle<Function> callback = Handle<Function>::Cast(data);
 	Handle<Value> new_value = callback->Call(info.This(),1,values);
 	//Return value is the return of the function call
-	return scope.Close(Boolean::New(new_value->IsTrue()));
+	return scope.Close(new_value->IsTrue() ? Handle<Integer>() : Integer::New(0));
 }
 
 Handle<Boolean> WatchableIndexedPropertyDeleter(
